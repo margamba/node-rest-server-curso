@@ -13,8 +13,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json());
 
-app.use(require('./routes/usuario'));
 
+//Aqui podriamos llegar a tener muchas importaciones de rutas 
+//lo ideal es que tengamos una sola importacion que me cargue todas las rutas
+//para ello creamos el index.js e incluimos alli todas las rutas
+// app.use(require('./routes/usuario'));
+// app.use(require('./routes/login'));
+
+app.use(require('./routes/index')); //configuración global de rutas
 
 //establecemos la conexion a bbdd y el nombre del esquema a crear, ver config.js
 mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },

@@ -6,10 +6,13 @@ const _ = require('underscore');
 
 const Usuario = require('./../models/usuario');
 
+const { verificaToken, verificaAdminRole } = require('./../middlewares/autenticacion');
+
 const app = express();
 
-
-app.get('/usuario', function(req, res) {
+//verificaToken es un middleware que se debe disparar cuando se accede a  esta ruta
+//es decir que se ejecuta el codigo de verificaToken y como este tiene un next, va continuar con el codigo aqui definido
+app.get('/usuario', verificaToken, function(req, res) {
 
 
     //los parametros opcionales caen dentro de un objeto .query (en postman son los query params o que van ? en url)
@@ -46,7 +49,7 @@ app.get('/usuario', function(req, res) {
 
 });
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdminRole], function(req, res) {
     let body = req.body;
 
     //creamos el usuario y lo inicializamos con los valores que vengan en cuerpo de la peticion
@@ -96,7 +99,7 @@ app.post('/usuario', function(req, res) {
 //existe la libreria underscore que expande cosas que js deberia tener por defecto
 //se manda arreglo con los campos que quiero que se actualicen
 
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdminRole], function(req, res) {
 
     let id = req.params.id
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
@@ -120,7 +123,7 @@ app.put('/usuario/:id', function(req, res) {
     });
 });
 
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdminRole], function(req, res) {
 
     let id = req.params.id;
 
