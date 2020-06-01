@@ -46,3 +46,9 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 process.env.URLDB = urlDB;
+
+// =======================
+// Google Cliente ID
+// =======================
+//Lo debo definir en heroku
+process.env.CLIENT_ID = process.env.CLIENT_ID || '944342826340-h55cebs41m9uip2fk1981nn7gb789afv.apps.googleusercontent.com';
