@@ -53,10 +53,32 @@ let verificaAdminRole = (req, res, next) => {
     next();
 }
 
+// ==============================
+// Verifica token para imagen (que viene en la url)
+// ==============================
 
 
+let verificaTokenImg = (req, res, next) => {
+
+    let token = req.query.token;
+
+    jwt.verify(token, process.env.SEED, (err, decoded) => {
+
+        if (err) {
+            res.status(401).json({
+                ok: false,
+                err
+            })
+        }
+
+        req.usuario = decoded.usuario;
+        next();
+
+    });
+}
 
 module.exports = {
     verificaToken,
-    verificaAdminRole
+    verificaAdminRole,
+    verificaTokenImg
 }
